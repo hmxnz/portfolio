@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>hmxnz — Ciberseguridad</title>
+
+  <!-- para buscadores y para cuando compartes el enlace -->
+  <meta name="description" content="Portfolio de Hugo Martínez Segura: ciberseguridad, pentesting y seguridad de aplicaciones. Proyectos y writeups.">
+  <meta name="theme-color" content="#0b0a12">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hugo Martínez Segura — Ciberseguridad">
+  <meta property="og:description" content="Pentesting, seguridad de aplicaciones y writeups.">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- con dominio propio añade og:url y og:image (URL completa, imagen 1200x630) -->
+
+  <!-- favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0a12'/%3E%3Ctext x='5' y='22' font-family='monospace' font-size='16' font-weight='700' fill='%23a78bfa'%3Eh_%3C/text%3E%3C/svg%3E">
+
+  <!-- fuentes -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@600;700&display=swap">
+
+  <!-- estilos -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- ¿ya probaste "ls -a" en la terminal? -->
+
+  <!-- fondo animado (se dibuja en script.js) -->
+  <canvas id="fondo"></canvas>
+
+  <!-- menú -->
+  <header>
+    <div class="barra">
+      <a class="logo" href="#home">hmxnz<i>_</i></a>
+      <nav>
+        <a href="#home"      data-vista="home" data-i="nav_home"></a>
+        <a href="#proyectos" data-vista="proyectos" data-i="nav_proyectos"></a>
+        <a href="#writeups"  data-vista="writeups" data-i="nav_writeups"></a>
+        <a href="#about"     data-vista="about" data-i="nav_about"></a>
+        <button id="btn-tema" aria-label="Tema / Theme">◐</button>
+        <button id="btn-idioma" aria-label="Idioma / Language">EN</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- INICIO -->
+    <section class="vista" id="v-home">
+      <div class="hero">
+        <div class="mono" id="hero-prompt"></div>
+        <h1 id="hero-titular"></h1>
+        <p class="lead" id="hero-resumen"></p>
+
+        <!-- terminal interactiva -->
+        <div class="term">
+          <div class="term-barra"><s></s><s></s><s></s> <span data-i="term_barra"></span></div>
+          <div id="term-salida" aria-live="polite"></div>
+          <div class="term-entrada">
+            <span>$</span>
+            <input id="term-input" autocomplete="off" spellcheck="false" placeholder="help" aria-label="Comando">
+          </div>
+          <div class="atajos" id="atajos"></div>
+        </div>
+
+        <div class="mono estado" id="hero-estado"></div>
+        <div class="botones" id="hero-botones"></div>
+      </div>
+    </section>
+
+    <!-- PROYECTOS -->
+    <section class="vista" id="v-proyectos">
+      <h2 data-i="h_proyectos"></h2>
+      <div id="lista-proyectos"></div>
+    </section>
+
+    <!-- WRITEUPS -->
+    <section class="vista" id="v-writeups">
+      <h2 data-i="h_writeups"></h2>
+      <p class="lead" data-i="writeups_lead"></p>
+      <div class="scroll-x">
+        <table>
+          <thead><tr><th>#</th><th data-i="th_titulo"></th><th data-i="th_nivel"></th><th data-i="th_tecnicas"></th><th data-i="th_fecha"></th></tr></thead>
+          <tbody id="tabla-writeups"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SOBRE MÍ -->
+    <section class="vista" id="v-about">
+      <div class="dos-cols">
+        <div id="about-texto"></div>
+        <div id="about-datos"></div>
+      </div>
+    </section>
+
+    <!-- WRITEUP ABIERTO -->
+    <section class="vista" id="v-post">
+      <div class="post">
+        <div id="post-contenido"></div>
+        <aside id="post-indice"></aside>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="pie"></footer>
+
+  <!-- primero los datos, luego la lógica -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

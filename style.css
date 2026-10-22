@@ -1,0 +1,336 @@
+/* ==========================================
+   COLORES Y VARIABLES
+   Cambia el acento aquí y se actualiza todo
+   ========================================== */
+
+:root {
+  --bg: #0b0a12;
+  --panel: #12111b;
+  --linea: #26243a;
+  --texto: #ece8f4;
+  --suave: #8e8aa6;
+  --acento: #a78bfa;
+  --ok: #7ee0b0;
+  --aviso: #f2b45a;
+  --malo: #ff7a8a;
+  --velo: rgba(167, 139, 250, .16);
+  --acento2: #f0abfc;   /* segundo color del degradado */
+}
+
+/* tema claro (lo activa script.js) */
+:root[data-tema="claro"] {
+  --bg: #f6f4fa;
+  --panel: #ffffff;
+  --linea: #d9d5e8;
+  --texto: #17142a;
+  --suave: #625e7a;
+  --acento: #5b3fd1;
+  --ok: #14764a;
+  --aviso: #9a5b0a;
+  --malo: #c2334a;
+  --velo: rgba(91, 63, 209, .14);
+  --acento2: #c026d3;
+}
+
+
+/* ==========================================
+   BASE
+   ========================================== */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: radial-gradient(70% 45% at 15% 0%, var(--velo), transparent) no-repeat fixed, var(--bg);
+  color: var(--texto);
+  font: 400 16px/1.7 "Bricolage Grotesque", system-ui, sans-serif;
+}
+
+main, footer, header { position: relative; z-index: 1; }
+main   { max-width: 1040px; margin: auto; padding: 0 20px 80px; min-height: 75vh; }
+
+button { font: inherit; color: inherit; cursor: pointer; }
+code   { font: .85em "JetBrains Mono", monospace; background: var(--velo); padding: 1px 6px; border-radius: 4px; }
+pre    { background: var(--panel); border: 1px solid var(--linea); border-radius: 8px; padding: 14px; overflow-x: auto; font: 13px/1.6 "JetBrains Mono", monospace; }
+
+h1 { font: 700 clamp(38px, 7vw, 76px)/1.05 "Space Grotesk", sans-serif; letter-spacing: -.035em; margin: 14px 0 20px; }
+h2 { font: 700 32px "Space Grotesk", sans-serif; letter-spacing: -.03em; margin: 56px 0 6px; }
+h3 { font: 700 22px "Bricolage Grotesque", sans-serif; margin: 36px 0 8px; }
+
+.mono   { font: 12px "JetBrains Mono", monospace; color: var(--suave); }
+.lead   { max-width: 50ch; color: var(--suave); font-size: 18px; }
+.scroll-x { overflow-x: auto; }
+
+/* chips pequeños */
+.tag {
+  font: 11px "JetBrains Mono", monospace;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  padding: 2px 9px;
+  color: var(--suave);
+  margin: 0 6px 6px 0;
+  display: inline-block;
+}
+
+/* botones */
+.btn {
+  display: inline-block;
+  padding: 11px 20px;
+  margin: 0 10px 10px 0;
+  border-radius: 8px;
+  border: 1px solid var(--acento);
+  background: var(--acento);
+  color: var(--bg);
+  font: 700 13px "JetBrains Mono", monospace;
+  text-decoration: none;
+}
+.btn.suave { background: none; color: var(--texto); border-color: var(--linea); }
+
+
+/* ==========================================
+   FONDO Y MENÚ
+   ========================================== */
+
+#fondo { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .3;
+  -webkit-mask-image: linear-gradient(90deg, #000, rgba(0,0,0,.35) 30%, rgba(0,0,0,.35) 70%, #000);
+          mask-image: linear-gradient(90deg, #000, rgba(0,0,0,.35) 30%, rgba(0,0,0,.35) 70%, #000); }
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--linea);
+}
+
+.barra {
+  max-width: 1040px;
+  margin: auto;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.logo   { font: 700 22px "Space Grotesk", sans-serif; color: var(--texto); text-decoration: none; letter-spacing: -.03em; }
+.logo i { font-style: normal; color: var(--acento); }
+
+nav a {
+  font: 13px "JetBrains Mono", monospace;
+  color: var(--suave);
+  text-decoration: none;
+  margin-left: 18px;
+}
+nav a.activo { color: var(--texto); text-decoration: underline 2px var(--acento); text-underline-offset: 7px; }
+
+#btn-tema, #btn-idioma {
+  margin-left: 12px;
+  font: 12px "JetBrains Mono", monospace;
+  padding: 2px 10px;
+  background: none;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+}
+
+
+/* ==========================================
+   VISTAS (solo se ve la activa)
+   ========================================== */
+
+.vista        { display: none; }
+.vista.activa { display: block; }
+
+
+/* ==========================================
+   INICIO + TERMINAL
+   ========================================== */
+
+.hero   { padding: 64px 0 20px; }
+.estado { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; }
+
+.term {
+  margin-top: 34px;
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  box-shadow: 0 20px 60px -30px var(--acento);
+}
+
+.term-barra {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--linea);
+  font: 12px "JetBrains Mono", monospace;
+  color: var(--suave);
+}
+.term-barra s { width: 10px; height: 10px; border-radius: 50%; background: var(--linea); }
+
+#term-salida {
+  padding: 16px 18px 4px;
+  min-height: 210px;
+  max-height: 340px;
+  overflow-y: auto;
+  font: 14px/1.75 "JetBrains Mono", monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+#term-salida .p  { color: var(--acento); }
+#term-salida .ok { color: var(--ok); }
+#term-salida .w  { color: var(--aviso); }
+
+.term-entrada { display: flex; gap: 10px; padding: 4px 18px 14px; font: 14px "JetBrains Mono", monospace; }
+.term-entrada span { color: var(--acento); }
+#term-input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; color: var(--texto); font: inherit; }
+
+.atajos { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px 16px; }
+.atajos button {
+  background: none;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font: 12px "JetBrains Mono", monospace;
+  color: var(--suave);
+}
+.atajos button:hover { color: var(--texto); border-color: var(--acento); }
+
+
+/* ==========================================
+   PROYECTOS
+   ========================================== */
+
+.proyecto { padding: 26px 20px 26px 22px; border-left: 2px solid var(--linea); margin-top: 18px; border-radius: 0 10px 10px 0;
+  background: color-mix(in srgb, var(--bg) 80%, transparent); backdrop-filter: blur(3px); }
+.proyecto:hover { border-color: var(--acento); }
+.proyecto h3 { margin: 0 0 2px; font-size: 26px; }
+.proyecto ul { padding-left: 18px; max-width: 70ch; color: color-mix(in srgb, var(--texto) 85%, var(--bg)); }
+
+
+/* ==========================================
+   TABLA DE WRITEUPS
+   ========================================== */
+
+table { width: 100%; border-collapse: collapse; margin-top: 18px; font: 14px "JetBrains Mono", monospace; }
+th { text-align: left; font-weight: 400; color: var(--suave); padding: 8px 10px; border-bottom: 1px solid var(--linea); }
+td { padding: 14px 10px; border-bottom: 1px solid var(--linea); vertical-align: top; background: color-mix(in srgb, var(--bg) 70%, transparent); }
+td.titulo { font: 700 17px "Bricolage Grotesque", sans-serif; }
+tr.fila { cursor: pointer; }
+tr.fila:hover td { background: var(--velo); }
+
+/* niveles */
+.nivel { border: 1px solid currentColor; border-radius: 999px; padding: 1px 8px; font-size: 11px; }
+.easy { color: var(--ok); }
+.med  { color: var(--aviso); }
+.hard { color: var(--malo); }
+
+
+/* ==========================================
+   WRITEUP ABIERTO + SPOILERS
+   ========================================== */
+
+.post { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 40px; padding-top: 30px; }
+.post h1 { font-size: clamp(36px, 6vw, 64px); }
+
+.spoiler-caja {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 22px 0;
+  padding: 12px 16px;
+  border: 1px dashed var(--acento);
+  border-radius: 8px;
+  font: 12px "JetBrains Mono", monospace;
+  color: var(--suave);
+}
+
+/* interruptor */
+.switch { position: relative; width: 42px; height: 22px; padding: 0; background: none; border: 1px solid var(--acento); border-radius: 999px; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--acento); transition: left .2s; }
+.switch.on::after { left: 23px; }
+
+/* texto censurado */
+.censurado {
+  background: var(--texto);
+  color: var(--texto);
+  padding: 0 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  user-select: none;
+  font-family: "JetBrains Mono", monospace;
+}
+.censurado.visto, .todo-visible .censurado { background: var(--velo); color: var(--ok); user-select: text; }
+
+/* índice lateral */
+aside { position: sticky; top: 90px; align-self: start; font: 12px/2.1 "JetBrains Mono", monospace; }
+aside a { display: block; padding-left: 12px; border-left: 2px solid var(--linea); color: var(--suave); text-decoration: none; }
+aside a:hover { color: var(--texto); border-color: var(--acento); }
+
+
+/* ==========================================
+   SOBRE MÍ
+   ========================================== */
+
+.dos-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; padding-top: 56px; }
+.dos-cols h2 { margin-top: 6px; }
+.dato { margin-bottom: 14px; }
+.dato b { display: block; }
+.grupo { margin-top: 20px; }
+
+footer { max-width: 1040px; margin: auto; padding: 28px 20px; border-top: 1px solid var(--linea); font: 12px "JetBrains Mono", monospace; color: var(--suave); }
+
+
+/* ==========================================
+   MÓVIL Y ACCESIBILIDAD
+   ========================================== */
+
+@media (max-width: 760px) {
+  .post, .dos-cols { grid-template-columns: 1fr; }
+  aside { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #fondo { display: none; }
+  * { transition: none !important; }
+}
+
+
+/* ==========================================
+   DETALLES (títulos, animaciones, extras)
+   ========================================== */
+
+/* última línea del titular con degradado */
+.grad {
+  background: linear-gradient(90deg, var(--acento), var(--acento2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* cursor parpadeante */
+.cursor { display: inline-block; width: .5em; height: .09em; margin-left: .1em; background: var(--acento); animation: parpadeo 1s steps(1) infinite; }
+@keyframes parpadeo { 50% { opacity: 0; } }
+
+/* cada vista entra con un fundido suave */
+.vista.activa { animation: entrar .5s ease both; }
+@keyframes entrar { from { opacity: 0; transform: translateY(12px); } }
+
+.botones { margin-top: 26px; }
+
+/* proyectos: se desplazan un poco al pasar el ratón */
+.proyecto { transition: transform .2s, border-color .2s; }
+.proyecto:hover { transform: translateX(6px); }
+
+/* selección, foco y scroll */
+::selection { background: var(--acento); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; }
+html { scrollbar-width: thin; scrollbar-color: var(--linea) transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .vista.activa, .cursor { animation: none; }
+}
