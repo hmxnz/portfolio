@@ -5,98 +5,133 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>hmxnz — Ciberseguridad</title>
 
-  <!-- para buscadores y para cuando compartes el enlace -->
   <meta name="description" content="Portfolio de Hugo Martínez Segura: ciberseguridad, pentesting y seguridad de aplicaciones. Proyectos y writeups.">
   <meta name="theme-color" content="#0b0a12">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Hugo Martínez Segura — Ciberseguridad">
-  <meta property="og:description" content="Pentesting, seguridad de aplicaciones y writeups.">
+  <meta property="og:description" content="Rompo sistemas para que dejen de romperse. Pentesting, appsec y writeups.">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- con dominio propio añade og:url y og:image (URL completa, imagen 1200x630) -->
 
-  <!-- favicon -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0a12'/%3E%3Ctext x='5' y='22' font-family='monospace' font-size='16' font-weight='700' fill='%23a78bfa'%3Eh_%3C/text%3E%3C/svg%3E">
 
-  <!-- fuentes -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@600;700&display=swap">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@500;700&family=Instrument+Serif:ital@0;1&display=swap">
 
-  <!-- estilos -->
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body data-view="home">
   <!-- ¿ya probaste "ls -a" en la terminal? -->
 
-  <!-- fondo animado (se dibuja en script.js) -->
-  <canvas id="fondo"></canvas>
+  <!-- boot loader -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-term">
+      <div class="loader-line"><span class="mono">hmxnz@portfolio</span>:~$ ./iniciar.sh</div>
+      <div class="loader-out" id="loader-out"></div>
+      <div class="loader-bar"><i id="loader-fill"></i></div>
+    </div>
+  </div>
+
+  <!-- cursor personalizado -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- textura de ruido + scanlines -->
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- fondo animado -->
+  <canvas id="fondo" aria-hidden="true"></canvas>
 
   <!-- menú -->
   <header>
     <div class="barra">
-      <a class="logo" href="#home">hmxnz<i>_</i></a>
-      <nav>
-        <a href="#home"      data-vista="home" data-i="nav_home"></a>
+      <a class="logo" href="#home" data-hover>hmxnz<i>_</i></a>
+      <nav id="nav">
+        <a href="#home"      data-vista="home"      data-i="nav_home"></a>
         <a href="#proyectos" data-vista="proyectos" data-i="nav_proyectos"></a>
-        <a href="#writeups"  data-vista="writeups" data-i="nav_writeups"></a>
-        <a href="#about"     data-vista="about" data-i="nav_about"></a>
-        <button id="btn-tema" aria-label="Tema / Theme">◐</button>
-        <button id="btn-idioma" aria-label="Idioma / Language">EN</button>
+        <a href="#writeups"  data-vista="writeups"  data-i="nav_writeups"></a>
+        <a href="#about"     data-vista="about"     data-i="nav_about"></a>
+        <button id="btn-tema"   aria-label="Tema / Theme" data-hover>◐</button>
+        <button id="btn-idioma" aria-label="Idioma / Language" data-hover>EN</button>
       </nav>
     </div>
+    <div class="nav-progreso"><i id="nav-progreso-fill"></i></div>
   </header>
 
   <main>
 
-    <!-- INICIO -->
+    <!-- ============ INICIO ============ -->
     <section class="vista" id="v-home">
       <div class="hero">
-        <div class="mono" id="hero-prompt"></div>
-        <h1 id="hero-titular"></h1>
+        <div class="mono hero-prompt-line"><span class="punto-vivo"></span><span id="hero-prompt"></span></div>
+
+        <h1 id="hero-titular" aria-label="Hugo Martínez Segura"></h1>
+
         <p class="lead" id="hero-resumen"></p>
 
         <!-- terminal interactiva -->
-        <div class="term">
-          <div class="term-barra"><s></s><s></s><s></s> <span data-i="term_barra"></span></div>
+        <div class="term reveal">
+          <div class="term-barra"><s></s><s></s><s></s> <span data-i="term_barra"></span><span class="term-right mono">bash · utf-8</span></div>
           <div id="term-salida" aria-live="polite"></div>
           <div class="term-entrada">
-            <span>$</span>
+            <span class="prompt-sign">$</span>
             <input id="term-input" autocomplete="off" spellcheck="false" placeholder="help" aria-label="Comando">
           </div>
           <div class="atajos" id="atajos"></div>
         </div>
 
-        <div class="mono estado" id="hero-estado"></div>
+        <div class="estado" id="hero-estado"></div>
         <div class="botones" id="hero-botones"></div>
+      </div>
+
+      <!-- marquee infinito -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track" id="marquee-track"></div>
       </div>
     </section>
 
-    <!-- PROYECTOS -->
+    <!-- ============ PROYECTOS ============ -->
     <section class="vista" id="v-proyectos">
-      <h2 data-i="h_proyectos"></h2>
+      <div class="sec-head">
+        <span class="sec-num mono">/01</span>
+        <h2 data-i="h_proyectos"></h2>
+        <span class="sec-linea"></span>
+      </div>
       <div id="lista-proyectos"></div>
     </section>
 
-    <!-- WRITEUPS -->
+    <!-- ============ WRITEUPS ============ -->
     <section class="vista" id="v-writeups">
-      <h2 data-i="h_writeups"></h2>
+      <div class="sec-head">
+        <span class="sec-num mono">/02</span>
+        <h2 data-i="h_writeups"></h2>
+        <span class="sec-linea"></span>
+      </div>
       <p class="lead" data-i="writeups_lead"></p>
-      <div class="scroll-x">
+      <div class="scroll-x tabla-caja reveal">
         <table>
-          <thead><tr><th>#</th><th data-i="th_titulo"></th><th data-i="th_nivel"></th><th data-i="th_tecnicas"></th><th data-i="th_fecha"></th></tr></thead>
+          <thead><tr><th>#</th><th data-i="th_titulo"></th><th data-i="th_nivel"></th><th data-i="th_tecnicas"></th><th data-i="th_fecha"></th><th></th></tr></thead>
           <tbody id="tabla-writeups"></tbody>
         </table>
       </div>
     </section>
 
-    <!-- SOBRE MÍ -->
+    <!-- ============ SOBRE MÍ ============ -->
     <section class="vista" id="v-about">
+      <div class="sec-head">
+        <span class="sec-num mono">/03</span>
+        <h2>whoami</h2>
+        <span class="sec-linea"></span>
+      </div>
       <div class="dos-cols">
         <div id="about-texto"></div>
         <div id="about-datos"></div>
       </div>
     </section>
 
-    <!-- WRITEUP ABIERTO -->
+    <!-- ============ WRITEUP ABIERTO ============ -->
     <section class="vista" id="v-post">
       <div class="post">
         <div id="post-contenido"></div>
@@ -108,7 +143,8 @@
 
   <footer id="pie"></footer>
 
-  <!-- primero los datos, luego la lógica -->
+  <noscript><p style="padding:40px;text-align:center;font-family:monospace">Esta página necesita JavaScript. / This site requires JavaScript.</p></noscript>
+
   <script src="data.js"></script>
   <script src="script.js"></script>
 </body>
